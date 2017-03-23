@@ -4,12 +4,12 @@ document.body.appendChild(app.view);
 app.renderer.backgroundColor = 0xFFFFFF;
 
 PIXI.loader
-    .add('human.jpg')
+    .add('the_coon.png')
     .load(onAssetsLoaded);
     
 function onAssetsLoaded(evt) {
 	
-	$.getJSON('human.json', function(datas){
+	$.getJSON('the_coon.json', function(datas){
 		
 		var spriteSheetImage  = PIXI.BaseTexture.fromImage(datas.meta.image);
 		var frames = [];
@@ -30,19 +30,26 @@ function onAssetsLoaded(evt) {
 			);
 		}
 		
+		// Background
+		
+		var iceTexture = PIXI.Texture.fromImage('images/ice.png');
+		var iceSprite = new PIXI.extras.TilingSprite(iceTexture, app.renderer.width, app.renderer.height );
+				
 		var anim = new PIXI.extras.AnimatedSprite(frames);
 
 	    anim.x = app.renderer.width / 2;
 	    anim.y = app.renderer.height / 2;
 	    anim.anchor.set(0.5);
-	    anim.animationSpeed = 0.1;
-	    anim.play();
+	    anim.animationSpeed = 1;
 	
+	    app.stage.addChild(iceSprite);
 	    app.stage.addChild(anim);
 	    
 	    $('canvas').click( function(evt){
 		    var destX = evt.offsetX;
 		    var destY = evt.offsetY;
+		    
+    	    anim.play();
 		    
 		    $({
 			    x: anim.x,
@@ -54,6 +61,10 @@ function onAssetsLoaded(evt) {
 			    step: function(){
 				    anim.x = this.x;
 				    anim.y = this.y;
+			    },
+			    
+			    complete: function(){
+					anim.stop();
 			    }
 		    });
 		    
