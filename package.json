@@ -1,0 +1,9 @@
+{
+  "name": "MultiPlayerRacoon",
+  "version": "0.8.0",
+  "description": "Multi Player Racoon",
+  "dependencies": {
+    "express": "4.10.2",
+    "socket.io": "1.2.0"
+  }
+}
